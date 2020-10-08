@@ -30,44 +30,27 @@ header('Access-Control-Allow-Headers: *');
      */
     public function store(Request $request)
     {
-        //header('Access-Control-Allow-Origin: *'); header('Access-Control-Allow-Methods: *'); 
-        //header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
+        header('Access-Control-Allow-Origin: *'); header('Access-Control-Allow-Methods: *'); 
+        header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
         //metoda 1
-//        $input = $request->all();
-//        $validator = Validator::make($input, [
-//            'name' => 'required',
-//            'description' => 'required',
-//            'price' => 'required',
-//        ]);
-//        $file = $request->file('photo');
-//
-//        if($validator->fails()){
-//            return $this->sendError('Validation Error.', $validator->errors());
-//        }
-//
-//
-//        $product = Product::create($input);
-//        if(!empty($file)) {
-//            $imageName = time().'.'.$file->getClientOriginalExtension();
-//            $file->move(public_path('images'), $imageName);
-//            $data['photo'] = $imageName;
-//            $product->update($data);
-//        }
+       $input = $request->all();
+       $product = Post::create($input);
+       
 
         //metoda 2
         
 
-        $product = new Post();
-        $product->title = $request->title;
-        $product->body = $request->body;
+        // $product = new Post();
+        // $product->title = $request->title;
+        // $product->body = $request->body;
         
- 
-        $product->save();
-        return response()->json([
-            //'success' => true,
+        // var_dump($product);die;
+        // $product->save();
+        // return response()->json([
+        //     //'success' => true,
             
-            'message' => 'Product created successfully.',
-        ]);
+        //     'message' => 'Product created successfully!!!',
+        // ]);
         //return $this->sendResponse($product->toArray(), 'Product created successfully.');
     }
 
@@ -79,13 +62,20 @@ header('Access-Control-Allow-Headers: *');
      */
     public function show($id)
     {
-        $product= Product::find($id);
+        $product= Post::find($id);
         if (is_null($product)) {
             return $this->sendError('Product not found.');
 }
         //return $this->sendResponse($product->toArray(), 'Product retrieved successfully.');
+        $post=[];
+        $post['title'] = $product->title;
+        $post['id'] = $product->id;
+        $post['userId'] = 1;
+        $post['body'] = $product->body;
+        
         return response()->json([
-            $product->toArray()
+            //$product->toArray()
+            $post
         ]);
     }
 
@@ -99,21 +89,14 @@ header('Access-Control-Allow-Headers: *');
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-        ]);
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-        $product= Product::find($id);
+        
+        $product= Post::find($id);
         if (is_null($product)) {
             return $this->sendError('Product not found.');
         }
-        $product->name = $input['name'];
-        $product->description = $input['description'];
-        $product->price = $input['price'];
+        $product->title = $input['title'];
+        $product->body = $input['body'];
+        
         $product->save();
         //return $this->sendResponse($product->toArray(), 'Product updated successfully.');
         return response()->json([
@@ -130,15 +113,15 @@ header('Access-Control-Allow-Headers: *');
      */
     public function destroy($id)
     {
-        $product= Product::find($id);
-        if (is_null($product)) {
+        $post= Post::find($id);
+        if (is_null($post)) {
             return $this->sendError('Product not found.');
         }
 //        Product::where('id', $product->id)
 //            ->update([
 //                'is_delete'=>'0'
 //            ]);
-        Product::where('id', $product->id)
+        Post::where('id', $post->id)
             ->delete();
         return $this->sendResponse($id, 'Product deleted successfully.');
     }
