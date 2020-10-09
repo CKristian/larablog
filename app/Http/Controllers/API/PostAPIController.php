@@ -30,31 +30,30 @@ class PostAPIController extends APIBaseController
      */
     public function store(Request $request)
     {
-        header('Access-Control-Allow-Origin: *'); 
-        
-        
-        
-        header('Access-Control-Allow-Methods: *'); 
+        header('Access-Control-Allow-Origin: *');  
         header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
         //metoda 1
-       $input = $request->all();
-         //$input = json_decode($request->getContent());
+       //$input = $request->all();
+      $input = json_decode($request->getContent());
       
-        // dd($input)
+         dd($input);
+         
+         dddd ;
+         
+         die;
+         Log::useFiles(storage_path('logs/file.log'));
         Log::info('app.requests', ['request' => $input, 'method' => $request->method()]);
-      // $product = Post::create($input);
-        //metoda 2
-        // $product = new Post();
-        // $product->title = $request->title;
-        // $product->body = $request->body;
+      
+         $product = new Post();
+        $product->title = $input['title'];
+        $product->body = $input['body'];
         
-        // var_dump($product);die;
-        // $product->save();
-        // return response()->json([
-        //     //'success' => true,
+         $product->save();
+         return response()->json([
+             'success' => true,
             
-        //     'message' => 'Product created successfully!!!',
-        // ]);
+            'message' => 'Product created successfully!!!',
+         ]);
         //return $this->sendResponse($product->toArray(), 'Product created successfully.');
     }
 
