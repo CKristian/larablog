@@ -15,8 +15,8 @@ class PostAPIController extends APIBaseController
     {
 
         header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: *');
-header('Access-Control-Allow-Headers: *');
+         header('Access-Control-Allow-Methods: *');
+        header('Access-Control-Allow-Headers: *');
        $posts = Post::all('id','title','body');
         //$posts = Post::latest()->paginate(5);
         return $this->sendResponse($posts->toArray(), 'Posts retrieved successfully.');
@@ -31,7 +31,7 @@ header('Access-Control-Allow-Headers: *');
     public function store(Request $request)
     {
         header('Access-Control-Allow-Origin: *'); header('Access-Control-Allow-Methods: *'); 
-        header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
+           header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
         //metoda 1
        $input = $request->all();
          //$input = json_decode($request->getContent());
@@ -39,11 +39,7 @@ header('Access-Control-Allow-Headers: *');
         // dd($input)
         Log::info('app.requests', ['request' => $input, 'method' => $request->method()]);
       // $product = Post::create($input);
-       
-
         //metoda 2
-        
-
         // $product = new Post();
         // $product->title = $request->title;
         // $product->body = $request->body;
