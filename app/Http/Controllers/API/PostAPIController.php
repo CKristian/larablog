@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\APIBaseController as APIBaseController;
-
+use Illuminate\Support\Facades\Log;
 use App\Post;
 use Validator;
 
@@ -34,7 +34,11 @@ header('Access-Control-Allow-Headers: *');
         header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
         //metoda 1
        $input = $request->all();
-       $product = Post::create($input);
+         //$input = json_decode($request->getContent());
+      
+        // dd($input)
+        Log::info('app.requests', ['request' => $input, 'method' => $request->method()]);
+      // $product = Post::create($input);
        
 
         //metoda 2
