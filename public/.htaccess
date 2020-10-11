@@ -1,6 +1,4 @@
-Header set Access-Control-Allow-Origin "*"
-Header set Access-Control-Allow-Headers "X-Requested-With, X-Auth-Token, Content-Type, Origin, Cache-Control, Pragma, Authorization, Accept, Accept-Encoding, X-Login-Origin, responseType"
-Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -21,6 +19,4 @@ Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-    
 </IfModule>
-

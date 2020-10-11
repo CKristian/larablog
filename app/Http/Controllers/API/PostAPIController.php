@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers\API;
 
-
-use Illuminate\Http\Request;
 use App\Http\Controllers\API\APIBaseController as APIBaseController;
-use Illuminate\Support\Facades\Log;
 use App\Post;
-use Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class PostAPIController extends APIBaseController
 {
     public function index()
     {
+        Log::info('app.requests', ['request' => 'index']);
+        $posts = Post::all('id', 'title', 'body');
+        //$posts = Post::all();
 
-        header('Access-Control-Allow-Origin: *');
-         header('Access-Control-Allow-Methods: *');
-        header('Access-Control-Allow-Headers: *');
-       $posts = Post::all('id','title','body');
+        return response()->json($posts);
         //$posts = Post::latest()->paginate(5);
-        return $this->sendResponse($posts->toArray(), 'Posts retrieved successfully.');
+        //return $this->sendResponse($posts->toArray(), 'Posts retrieved successfully.');
     }
 
     /**
@@ -30,31 +28,20 @@ class PostAPIController extends APIBaseController
      */
     public function store(Request $request)
     {
-        header('Access-Control-Allow-Origin: *');  
-        header('Access-Control-Allow-Headers: Origin, X-Requested-With,Authorization,  Content-Type, Accept');
-        //metoda 1
-       //$input = $request->all();
-      $input = json_decode($request->getContent());
-      
-         dd($input);
-         
-         dddd ;
-         
-         die;
-         Log::useFiles(storage_path('logs/file.log'));
-        Log::info('app.requests', ['request' => $input, 'method' => $request->method()]);
-      
-         $product = new Post();
-        $product->title = $input['title'];
-        $product->body = $input['body'];
-        
-         $product->save();
-         return response()->json([
-             'success' => true,
-            
-            'message' => 'Product created successfully!!!',
-         ]);
-        //return $this->sendResponse($product->toArray(), 'Product created successfully.');
+
+        Log::info('app.requests', ['request' => 'store']);
+        $input = json_decode($request->getContent(), true);
+
+        $post = new Post();
+        $post->title = $input['title'];
+        $post->body = $input['body'];
+
+        $post->save();
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Post created successfully!!!',
+        // ]);
+        return $this->sendResponse($post->toArray(), 'Post created successfully.');
     }
 
     /**
@@ -65,21 +52,11 @@ class PostAPIController extends APIBaseController
      */
     public function show($id)
     {
-        $product= Post::find($id);
-        if (is_null($product)) {
+        $post = Post::find($id);
+        if (is_null($post)) {
             return $this->sendError('Product not found.');
-}
-        //return $this->sendResponse($product->toArray(), 'Product retrieved successfully.');
-        $post=[];
-        $post['title'] = $product->title;
-        $post['id'] = $product->id;
-        $post['userId'] = 1;
-        $post['body'] = $product->body;
-        
-        return response()->json([
-            //$product->toArray()
-            $post
-        ]);
+        }
+        return $this->sendResponse($post->toArray(), 'Product retrieved successfully.');
     }
 
     /**
@@ -92,14 +69,14 @@ class PostAPIController extends APIBaseController
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        
-        $product= Post::find($id);
+
+        $product = Post::find($id);
         if (is_null($product)) {
             return $this->sendError('Product not found.');
         }
         $product->title = $input['title'];
         $product->body = $input['body'];
-        
+
         $product->save();
         //return $this->sendResponse($product->toArray(), 'Product updated successfully.');
         return response()->json([
@@ -116,17 +93,16 @@ class PostAPIController extends APIBaseController
      */
     public function destroy($id)
     {
-        $post= Post::find($id);
+        $post = Post::find($id);
         if (is_null($post)) {
             return $this->sendError('Product not found.');
         }
-//        Product::where('id', $product->id)
-//            ->update([
-//                'is_delete'=>'0'
-//            ]);
+
+        Log::info('app.requests', ['request' => $id]);
+
         Post::where('id', $post->id)
             ->delete();
         return $this->sendResponse($id, 'Product deleted successfully.');
     }
-    
+
 }
