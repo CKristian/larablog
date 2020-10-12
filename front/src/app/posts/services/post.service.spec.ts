@@ -3,14 +3,15 @@ import { TestBed } from '@angular/core/testing';
 
 
 import { PostService } from './post.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PostService', () => {
   let service: PostService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientModule, HttpClient ]
+      imports: [HttpClientTestingModule],
+      providers: [PostService]
     });
     service = TestBed.inject(PostService);
   });
