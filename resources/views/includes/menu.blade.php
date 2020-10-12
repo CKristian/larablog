@@ -18,13 +18,13 @@
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#header">HOME <span class="sr-only">(current)</span></a>
+                        <a class="nav-link page-scroll" href="#header">{{ __('messages.menu.home') }} <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link page-scroll" href="#features">FEATURES</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#details">DETAILS</a>
+                        <a class="nav-link page-scroll" href="#details">@lang('messages.menu.detalis')</a>
                     </li>
 
                     <!-- Dropdown Menu -->          
@@ -38,11 +38,21 @@
                             <a class="dropdown-item" href="privacy-policy.html"><span class="item-text">PRIVACY POLICY</span></a>
                         </div>
                     </li>
+
                     <!-- end of dropdown menu -->
 
                     <li class="nav-item">
                         <a class="nav-link page-scroll" href="#pricing">PRICING</a>
                     </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle page-scroll" href="#" id="navbarDropdown" role="button" aria-haspopup="true" aria-expanded="false">Lang</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('locale/ro') }}"><span class="item-text">RO</span></a>
+                            <div class="dropdown-items-divide-hr"></div>
+                            <a class="dropdown-item" href="{{ url('locale/en') }}"><span class="item-text">EN</span></a>
+                        </div>
+                    </li>
+                  
                 </ul>
                 <span class="nav-item">
                     <a class="btn-outline-sm" href="log-in.html">LOG IN</a>

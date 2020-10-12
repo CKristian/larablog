@@ -13,7 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/acasa', 'Home@index');
+
+
+Route::get('locale/{locale}', function ($locale){
+    if(array_key_exists($locale, Config::get('app.languages'))){
+        Session::put('locale', $locale);
+    }
+    return redirect()->back();
+});
+
